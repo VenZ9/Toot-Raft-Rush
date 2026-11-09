@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!129 &1
+PlayerSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 23
+  productGUID: 98199f57a9504edf8336686915130000
+  AndroidProfiler: 0
+  AndroidFilterTouchesWhenObscured: 0
+  AndroidEnableSustainedPerformanceMode: 0
+  defaultScreenOrientation: 3
+  targetDevice: 2
+  useOnDemandResources: 0
+  accelerometerFrequency: 60
+  companyName: Zayn
+  productName: Toot Raft Rush
+  defaultCursor: {fileID: 0}
+  cursorHotspot: {x: 0, y: 0}
+  m_SplashScreenBackgroundColor: {r: 0.12, g: 0.15, b: 0.2, a: 1}
+  allowedAutoRotateToPortrait: 0
+  allowedAutoRotateToPortraitUpsideDown: 0
+  allowedAutoRotateToLandscapeRight: 1
+  allowedAutoRotateToLandscapeLeft: 1
+  useOSAutorotation: 1
+  m_RenderingPath: 1
+  bundleVersion: 1.0.0
+  AndroidMinSdkVersion: 24
+  AndroidTargetSdkVersion: 34
+  AndroidBuildSystem: 1
+  AndroidPreferredInstallLocation: 1
+  applicationIdentifier:
+    Android: com.zayn.tootraftrush
+  bundleVersionCode:
+    Android: 1
+  scriptingBackend:
+    Android: 1
+  targetArchitectures: 2
+  bakeCollisionMeshes: 0

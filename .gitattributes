@@ -1,0 +1,34 @@
+# Unity Git attributes
+* text=auto eol=lf
+
+*.cs diff=csharp text
+*.cginc text
+*.shader text
+*.hlsl text
+*.compute text
+
+*.mat text eol=lf
+*.anim text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.physicsMaterial2D text eol=lf
+*.physicMaterial text eol=lf
+*.asset text eol=lf
+*.meta text eol=lf
+*.controller text eol=lf
+
+# 3D binary formats
+*.fbx binary
+*.obj text
+*.glb binary
+*.gltf text
+
+# Textures
+*.png binary
+*.jpg binary
+*.jpeg binary
+
+# Audio
+*.wav binary
+*.mp3 binary
+*.ogg binary

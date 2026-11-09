@@ -1,0 +1,151 @@
+name: Run Automated Tests
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  validateProject:
+    name: Project Integrity & Architecture Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Python Project Integrity Checks
+        run: |
+          python3 -c "
+          import os
+
+          print('1. Checking required scene files...')
+          scenes = [
+              'Assets/Scenes/MainMenu.unity',
+              'Assets/Scenes/CharacterSelection.unity',
+              'Assets/Scenes/Lobby.unity',
+              'Assets/Scenes/SunnySlide.unity',
+              'Assets/Scenes/SpikyCanyon.unity',
+              'Assets/Scenes/TurboRapids.unity'
+          ]
+          for s in scenes:
+              assert os.path.exists(s), f'Missing required scene: {s}'
+              assert os.path.exists(s + '.meta'), f'Missing scene meta: {s}.meta'
+          print('All 6 scenes verified.')
+
+          print('2. Checking required C# scripts...')
+          scripts = [
+              'Assets/Scripts/Gameplay/RaftController.cs',
+              'Assets/Scripts/Gameplay/PlayerController.cs',
+              'Assets/Scripts/Gameplay/FartSystem.cs',
+              'Assets/Scripts/AI/AICompanion.cs',
+              'Assets/Scripts/Obstacles/ObstacleSwing.cs',
+              'Assets/Scripts/Obstacles/ObstacleRotate.cs',
+              'Assets/Scripts/Obstacles/ObstacleMove.cs',
+              'Assets/Scripts/Obstacles/HazardTrigger.cs',
+              'Assets/Scripts/Pickups/FoodPickup.cs',
+              'Assets/Scripts/Pickups/SpeedPad.cs',
+              'Assets/Scripts/Gameplay/CheckpointManager.cs',
+              'Assets/Scripts/Gameplay/CheckpointTrigger.cs',
+              'Assets/Scripts/Core/GameManager.cs',
+              'Assets/Scripts/UI/UIManager.cs',
+              'Assets/Scripts/UI/MainMenuController.cs',
+              'Assets/Scripts/UI/CharacterSelectController.cs',
+              'Assets/Scripts/UI/LobbyController.cs',
+              'Assets/Scripts/UI/SettingsManager.cs',
+              'Assets/Scripts/UI/VirtualJoystick.cs',
+              'Assets/Scripts/UI/FartButton.cs',
+              'Assets/Scripts/Multiplayer/NetworkManager.cs',
+              'Assets/Scripts/Audio/AudioManager.cs',
+              'Assets/Scripts/Audio/ProceduralAudioSynthesizer.cs',
+              'Assets/Scripts/Utility/SplineTrackGenerator.cs',
+              'Assets/Scripts/Utility/CameraController.cs',
+              'Assets/Scripts/Utility/CharacterVisualController.cs'
+          ]
+          for sc in scripts:
+              assert os.path.exists(sc), f'Missing required script: {sc}'
+              assert os.path.exists(sc + '.meta'), f'Missing script meta: {sc}.meta'
+          print('All 26 C# gameplay scripts verified.')
+
+          print('3. Checking 4 character 3D models and textures...')
+          assert os.path.exists('Assets/Art/Characters/Hippo/Hippo.obj'), 'Hippo model missing'
+          assert os.path.exists('Assets/Art/Characters/Rhino/Rhino.obj'), 'Rhino model missing'
+          assert os.path.exists('Assets/Art/Characters/Frog/Frog.obj'), 'Frog model missing'
+          assert os.path.exists('Assets/Art/Characters/Capybara/Capybara.obj'), 'Capybara model missing'
+          assert os.path.exists('Assets/Art/Props/Raft/Raft.obj'), 'Raft model missing'
+          print('All 3D character & raft models verified.')
+
+          print('4. Checking audio assets...')
+          audio_files = [
+              'Assets/Art/Audio/toot_hippo.wav',
+              'Assets/Art/Audio/toot_rhino.wav',
+              'Assets/Art/Audio/toot_frog.wav',
+              'Assets/Art/Audio/toot_capybara.wav',
+              'Assets/Art/Audio/fart_charge.wav',
+              'Assets/Art/Audio/splash.wav',
+              'Assets/Art/Audio/pickup_bean.wav',
+              'Assets/Art/Audio/pickup_chili.wav',
+              'Assets/Art/Audio/pickup_soda.wav',
+              'Assets/Art/Audio/wipeout.wav',
+              'Assets/Art/Audio/checkpoint.wav',
+              'Assets/Art/Audio/victory.wav',
+              'Assets/Art/Audio/music_theme.wav'
+          ]
+          for a in audio_files:
+              assert os.path.exists(a), f'Missing audio file: {a}'
+          print('All 13 audio clips verified.')
+
+          print('5. Checking prefabs...')
+          prefabs = [
+              'Assets/Prefabs/Raft.prefab',
+              'Assets/Prefabs/Player_Hippo.prefab',
+              'Assets/Prefabs/Player_Rhino.prefab',
+              'Assets/Prefabs/Player_Frog.prefab',
+              'Assets/Prefabs/Player_Capybara.prefab',
+              'Assets/Prefabs/Obstacle_SwingingBar.prefab',
+              'Assets/Prefabs/Obstacle_RotatingLog.prefab',
+              'Assets/Prefabs/Obstacle_MovingGate.prefab',
+              'Assets/Prefabs/Pickup_Beans.prefab',
+              'Assets/Prefabs/Pickup_Chili.prefab',
+              'Assets/Prefabs/Pickup_Soda.prefab',
+              'Assets/Prefabs/SpeedPad.prefab',
+              'Assets/Prefabs/Checkpoint.prefab',
+              'Assets/Prefabs/FinishArch.prefab'
+          ]
+          for p in prefabs:
+              assert os.path.exists(p), f'Missing prefab: {p}'
+          print('All 14 core prefabs verified.')
+
+          print('=== ALL PRE-FLIGHT INTEGRITY CHECKS PASSED ===')
+          "
+
+  unityEditModeTests:
+    name: Unity EditMode Automated Tests
+    needs: validateProject
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Unity Activation Secrets
+        id: check_license
+        run: |
+          if [ -n "${{ secrets.UNITY_LICENSE }}" ] || ([ -n "${{ secrets.UNITY_EMAIL }}" ] && [ -n "${{ secrets.UNITY_PASSWORD }}" ]); then
+            echo "has_license=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_license=false" >> $GITHUB_OUTPUT
+            echo "::notice::GameCI Unity test runner skipped because UNITY_LICENSE secret is not present in repo."
+          fi
+
+      - name: Run Unity Tests
+        if: steps.check_license.outputs.has_license == 'true'
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          unityVersion: 2022.3.48f1
+          testMode: EditMode
+          artifactsPath: test-artifacts
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: EditMode Test Results
