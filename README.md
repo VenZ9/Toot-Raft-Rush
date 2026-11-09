@@ -1,5 +1,10 @@
 # Toot Raft Rush 💨🛟
 
+[![Download APK](https://img.shields.io/badge/Download-TootRaftRush.apk-22c55e?style=for-the-badge&logo=android)](https://github.com/VenZ9/Toot-Raft-Rush/releases/download/v1.0.0/TootRaftRush.apk)
+[![Release v1.0.0](https://img.shields.io/badge/Release-v1.0.0-38bdf8?style=for-the-badge)](https://github.com/VenZ9/Toot-Raft-Rush/releases/tag/v1.0.0)
+
+> 📲 **Direct APK Download**: [**TootRaftRush.apk (v1.0.0)**](https://github.com/VenZ9/Toot-Raft-Rush/releases/download/v1.0.0/TootRaftRush.apk) — Ready to install directly on any Android 7.0+ (API 24 to 34) device. Zero setup or licenses required!
+
 **Toot Raft Rush** is an original 3D cooperative cartoon party game built in **Unity 2022.3 LTS** with the **Universal Render Pipeline (URP)** for **Android**.
 
 Players take control of cute, expressive cartoon animals aboard a circular inflatable raft navigating winding water slides and obstacle-laden canals. With no motor or engine, propulsion and steering are driven entirely by directional fart blasts! Team up with three intelligent AI animal companions or friends via online multiplayer to blast, steer, dodge hazards, and rush across the finish line!

@@ -1,5 +1,8 @@
 # Toot Raft Rush — Android Build & Deployment Guide 📱
 
+> 🚀 **Direct One-Click APK Download**: [**Download TootRaftRush.apk (v1.0.0)**](https://github.com/VenZ9/Toot-Raft-Rush/releases/download/v1.0.0/TootRaftRush.apk)  
+> *No Unity installation or license credentials required. Signed with v2/v3 signatures, tested, and ready to install on Android 7.0+ (API 24 to 34).*
+
 This document provides instructions for compiling, building, downloading, and testing the Android APK for **Toot Raft Rush** using **GitHub Actions (GameCI)** and local Unity builds.
 
 ---
